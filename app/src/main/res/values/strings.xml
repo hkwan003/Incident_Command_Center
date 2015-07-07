@@ -16,4 +16,35 @@
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="email_hint">Email</string>
     <string name="sign_up_button_label">Sign Up</string>
+    <string name="signup_error_message">Please make sure you enter a username, password and email address!</string>
+    <string name="signup_error_title">Oops!</string>
+    <string name="login_error_message">Please make sure you enter a username and password!</string>
+    <string name="login_error_title">Oops!</string>
+    <string name="menu_logout_label">Logout</string>
+    <string name="empty_inbox_label">No new messages!</string>
+    <string name="empty_friends_label">Add friends to begin!</string>
+    <string name="title_activity_main_activity2">MainActivity2</string>
+    <string name="fragment_A">this is fragment A</string>
+
+    <string-array name="drawer_list">
+        <item>Item 1</item>
+        <item>Item 2</item>
+        <item>Item 3</item>
+    </string-array>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_example">Example action</string>
+    <string name="title_activity_edit_friends">Edit Friends</string>
+    <string name="error_title">We\'re sorry</string>
+    <string name="title_activity_inbox_activity">inbox_activity</string>
+    <string name="title_activity_friends_activity">friends_activity</string>
+    <string name="menu_camera_label">Camera</string>
+    <string-array name="camera_choices">
+        <item>Take Picture</item>
+        <item>Take Video</item>
+        <item>Choose Picture</item>
+        <item>Choose Video</item>
+    </string-array>
 </resources>

@@ -12,7 +12,6 @@ public class RibbitApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        Parse.enableLocalDatastore(this);
         Parse.initialize(this, "vnCbnf4r1MiM0EPAgCDuddmeDMEKz46hVpBVSwSv", "lKFrjBuEyn59KVBJuvUJNSdVDweAkfXznH5lEJxx");
     }
 
