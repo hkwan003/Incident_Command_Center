@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity
     };
     SectionsPagerAdapter mSectionsPagerAdapter;
 
-
     ViewPager mViewPager;
 
     @Override
