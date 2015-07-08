@@ -195,13 +195,13 @@ public class MainActivity extends AppCompatActivity
 
         if(resultCode == RESULT_OK)
         {
-            if(requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST)
+            if(requestCode == PICK_PHOTO_REQUEST || requestCode == PICK_VIDEO_REQUEST)      //if choose photo or vidoe is picked, checks if data returns null
             {
-                if(data == null)
+                if(data == null)        //if null, than data has failed so error toast outputs
                 {
                     Toast.makeText(this, getString(R.string.general_error), Toast.LENGTH_LONG).show();
                 }
-                else
+                else        //else, mMediaUri gets what get data outputs
                 {
                     mMediaUri = data.getData();
                 }
@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity
                             //leaving this code block intentionally blank
                         }
                     }
-                    if(filesize >= FILE_SIZE_LIMIT)
+                    if(filesize >= FILE_SIZE_LIMIT)     //makes sure the file size limit is less than 10MB
                     {
                         Toast.makeText(this, R.string.error_file_size_too_large, Toast.LENGTH_LONG).show();
                         return;
@@ -251,6 +251,10 @@ public class MainActivity extends AppCompatActivity
                 mediaScanIntent.setData(mMediaUri);
                 sendBroadcast(mediaScanIntent);
             }
+
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaUri);
+            startActivity(recipientsIntent);
         }
         else if(resultCode != RESULT_CANCELED)
         {

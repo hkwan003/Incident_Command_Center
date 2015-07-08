@@ -56,6 +56,7 @@
             android:name=".RecipientsActivity"
             android:label="@string/title_activity_recipients"
             android:screenOrientation="portrait"
+            android:theme="@style/ThemeOverlay.AppCompat"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

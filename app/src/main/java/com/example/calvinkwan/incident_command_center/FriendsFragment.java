@@ -22,6 +22,7 @@ import java.util.List;
 
 public class FriendsFragment extends android.support.v4.app.ListFragment
 {
+    //default variables to retrieve list of friends
     public static final String TAG = FriendsFragment.class.getSimpleName();
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
@@ -35,7 +36,7 @@ public class FriendsFragment extends android.support.v4.app.ListFragment
     }
 
     @Override
-    public void onResume()
+    public void onResume()  //this method is in charge of retrieving all friends from the backend
     {
         super.onResume();
 
