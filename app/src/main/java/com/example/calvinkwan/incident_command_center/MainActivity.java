@@ -1,12 +1,14 @@
 package com.example.calvinkwan.incident_command_center;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.Date;
 import java.io.FileNotFoundException;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity
 
     protected Uri mMediaUri;        //URI stands for uniform resource identfier, the path to specific system
 
+    public static final int FILE_SIZE_LIMIT = 1024 * 1024 * 10;        //CONSTANT CONVERSION FOR FILE SIZE 10 MB
 
     protected DialogInterface.OnClickListener mDialogListener = new DialogInterface.OnClickListener()
     {
@@ -208,8 +211,37 @@ public class MainActivity extends AppCompatActivity
                 {
                     //make sure file size is less than 10mb
                     int filesize = 0;
-
-                    InputStream inputStream = getContentResolver().openInputStream(mMediaUri);
+                    InputStream inputStream = null;
+                    try {
+                        inputStream = getContentResolver().openInputStream(mMediaUri);
+                        filesize = inputStream.available();
+                    }
+                    catch(FileNotFoundException e)      //catches file not found exceptiosn
+                    {
+                        Toast.makeText(this, R.string.error_opening_file, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    catch (IOException e)           //catches IO exceptions
+                    {
+                        Toast.makeText(this, R.string.error_opening_file, Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    finally             //finally block gets executed no matter what
+                    {
+                        try
+                        {
+                            inputStream.close();        //closing input stream
+                        }
+                        catch(IOException e)
+                        {
+                            //leaving this code block intentionally blank
+                        }
+                    }
+                    if(filesize >= FILE_SIZE_LIMIT)
+                    {
+                        Toast.makeText(this, R.string.error_file_size_too_large, Toast.LENGTH_LONG).show();
+                        return;
+                    }
                 }
             }
             else
