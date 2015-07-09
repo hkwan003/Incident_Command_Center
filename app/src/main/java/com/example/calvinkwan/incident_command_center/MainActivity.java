@@ -247,13 +247,24 @@ public class MainActivity extends AppCompatActivity
             else
             {
                 //add it to the gallery
-                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-                mediaScanIntent.setData(mMediaUri);
+                Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);//initalizes intent to scan for media
+                mediaScanIntent.setData(mMediaUri); //sets the media choosen like photo or video
                 sendBroadcast(mediaScanIntent);
             }
 
             Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
             recipientsIntent.setData(mMediaUri);
+
+            String fileType;
+            if(requestCode == PICK_PHOTO_REQUEST || requestCode == TAKE_PHOTO_REQUEST)//needs to determine before sending to parse what kind of file is it
+            {
+                fileType = ParseConstants.TYPE_IMAGE;       //equals image file type
+            }
+            else
+            {
+                fileType = ParseConstants.TYPE_VIDEO;       //equals video file type
+            }
+            recipientsIntent.putExtra(ParseConstants.KEY_FILE_TYPE, fileType);
             startActivity(recipientsIntent);
         }
         else if(resultCode != RESULT_CANCELED)
@@ -262,7 +273,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void navigateToLogin()
+    private void navigateToLogin()//helper method to navigate to the login screen
     {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

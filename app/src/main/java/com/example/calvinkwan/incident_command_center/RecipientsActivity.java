@@ -2,6 +2,7 @@ package com.example.calvinkwan.incident_command_center;
 
 import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,11 +13,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipientsActivity extends ListActivity
@@ -28,12 +32,18 @@ public class RecipientsActivity extends ListActivity
     protected List<ParseUser> mFriends;
     protected MenuItem mSendMenuItem;       //to use to reference the send button
 
+    protected Uri mMediaUri;        //in charge of files too big and cumbersome like pics and videos
+    protected String mFileType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipients);
         getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);             //enables check mark to be checked in edit friends
+
+        mMediaUri = getIntent().getData();
+        mFileType = getIntent().getExtras().getString(ParseConstants.KEY_FILE_TYPE);//get specific extra based on key located in parse constants
     }
 
     @Override
@@ -98,13 +108,15 @@ public class RecipientsActivity extends ListActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_send)
+        if(id == R.id.action_send)
         {
-            mSendMenuItem.setVisible(true);         //send button pops up when item is clicked, so only able to send if media is choosen
+            //to be handled
+            ParseObject message = createMessage();
+            //send(message);
             return true;
         }
+
 
         return super.onOptionsItemSelected(item);
     }
@@ -113,6 +125,39 @@ public class RecipientsActivity extends ListActivity
     protected void onListItemClick(ListView l, View v, int position, long id)
     {
         super.onListItemClick(l, v, position, id);
-        mSendMenuItem.setVisible(true);         //send button pops up when item is clicked, so only able to send if media is choosen
+        if(l.getCheckedItemCount() > 0) {
+            mSendMenuItem.setVisible(true);         //send button pops up when item is clicked, so only able to send if media is choosen
+        }
+        else
+        {
+            mSendMenuItem.setVisible(false);
+        }
+    }
+
+    protected ParseObject createMessage()
+    {
+        ParseObject message = new ParseObject(ParseConstants.CLASS_MESSAGES);       //creating a new object to have a class of specified information to push to parse server
+        message.put(ParseConstants.KEY_SENDER_IDS, ParseUser.getCurrentUser().getObjectId());//gets object ID
+        message.put(ParseConstants.KEY_SENDER_NAME, ParseUser.getCurrentUser().getUsername());//gets current username
+        message.put(ParseConstants.KEY_RECIPIENT_IDS, getRecipientsIds());  //array of recipient IDS
+        message.put(ParseConstants.KEY_FILE_TYPE, mFileType);   //now has the file type
+
+
+        byte[] fileBytes;       //only way parse allows for uploads is to put it in a byte file
+        return message;
+    }
+
+    protected ArrayList<String> getRecipientsIds()      //method returns array list
+    {
+        ArrayList<String> recipientIds = new ArrayList<String>();
+        for(int i = 0; i < getListView().getCount(); i++)       //loops through list of checked users to grab user id
+        {
+            if(getListView().isItemChecked(i))      //if user is checked, add userid to array list
+            {
+                recipientIds.add(mFriends.get(i).getObjectId());
+            }
+
+        }
+        return recipientIds;        //returns array list
     }
 }
