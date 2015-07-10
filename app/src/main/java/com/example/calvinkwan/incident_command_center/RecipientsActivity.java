@@ -11,14 +11,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +116,23 @@ public class RecipientsActivity extends ListActivity
         {
             //to be handled
             ParseObject message = createMessage();
-            //send(message);
+            if(message == null)
+            {
+                //error message
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(R.string.error_selecting_file)
+                        .setTitle(R.string.error_selecting_file_title)
+                        .setPositiveButton(android.R.string.ok, null);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+            else
+            {
+                //toast live across activities changes
+                //dialogs only live in current activity
+                send(message);
+                finish();
+            }
             return true;
         }
 
@@ -143,7 +162,24 @@ public class RecipientsActivity extends ListActivity
         message.put(ParseConstants.KEY_FILE_TYPE, mFileType);   //now has the file type
 
 
-        byte[] fileBytes;       //only way parse allows for uploads is to put it in a byte file
+        byte[] fileBytes = FileHelper.getByteArrayFromFile(this, mMediaUri);//only way parse allows for uploads is to put it in a byte file
+
+        if(fileBytes == null)       //if anything happens that make it go wrong, than there was a problem with upload
+        {
+            return null;
+        }
+        else
+        {
+            if(mFileType.equals(ParseConstants.TYPE_IMAGE)) //on success, reduces the image down to size that parse can handle
+            {
+                fileBytes = FileHelper.reduceImageForUpload(fileBytes);
+            }
+
+            String fileName = FileHelper.getFileName(this, mMediaUri, mFileType);   //retrieves the file name and renames file
+            ParseFile file = new ParseFile(fileName, fileBytes);
+            message.put(ParseConstants.KEY_FILE, file);
+
+        }
         return message;
     }
 
@@ -159,5 +195,31 @@ public class RecipientsActivity extends ListActivity
 
         }
         return recipientIds;        //returns array list
+    }
+
+    protected void send(ParseObject message)        //send means save in backend
+    {
+        message.saveInBackground(new SaveCallback()
+        {
+            @Override
+            public void done(ParseException e)
+            {
+                if(e == null)   //null means save in background success
+                {
+                    //success
+                    Toast.makeText(RecipientsActivity.this, R.string.success_message, Toast.LENGTH_LONG).show();
+                }
+                else //error
+                {
+                    //outputing an error dialog which the user won't be able to miss until pressing ok
+                    AlertDialog.Builder builder = new AlertDialog.Builder(RecipientsActivity.this);
+                    builder.setMessage(R.string.error_sending_message)
+                            .setTitle(R.string.error_selecting_file_title)
+                            .setPositiveButton(android.R.string.ok, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                }
+            }
+        });
     }
 }
