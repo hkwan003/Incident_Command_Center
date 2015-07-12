@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.List;
 import java.util.Locale;
 import java.util.Date;
 import java.io.FileNotFoundException;
@@ -30,10 +31,13 @@ import android.view.MenuItem;
 import android.content.DialogInterface.OnCancelListener;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.Parse;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -192,13 +196,6 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    @Override                   //function to bring messages from backend to local
-    protected void onResume()
-    {
-        super.onResume();
-        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>(ParseConstants.CLASS_MESSAGES);
-        query.whereEqualTo(ParseConstants.KEY_RECIPIENT_IDS, ParseUser.getCurrentUser().getObjectId());     //looks if object id matches our specific ID
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)

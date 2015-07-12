@@ -49,7 +49,8 @@ public class FriendsFragment extends android.support.v4.app.ListFragment
             @Override
             public void done(List<ParseUser> friends, ParseException e)
             {
-                if(e == null) {
+                if(e == null)
+                {
                     mFriends = friends;
                     String[] usernames = new String[mFriends.size()];            //makes an array of size users
                     int i = 0;
