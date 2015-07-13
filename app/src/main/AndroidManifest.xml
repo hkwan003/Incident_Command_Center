@@ -55,8 +55,16 @@
         <activity
             android:name=".RecipientsActivity"
             android:label="@string/title_activity_recipients"
+            android:parentActivityName=".MainActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/ThemeOverlay.AppCompat"
+            android:theme="@style/ThemeOverlay.AppCompat" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.calvinkwan.incident_command_center.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ViewImageActivity"
+            android:label="@string/title_activity_view_image"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
