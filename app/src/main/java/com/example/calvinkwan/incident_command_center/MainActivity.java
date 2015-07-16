@@ -178,6 +178,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         ParseUser currentUser = ParseUser.getCurrentUser();
 
+        final Intent serviceIntent = new Intent(getApplicationContext(), MessageService.class); //message service is messaging service by sinch
+        startService(serviceIntent);    //starting service intent
+
         if(currentUser == null)
         {
             navigateToLogin();

@@ -23,14 +23,16 @@ class SectionsPagerAdapter extends FragmentPagerAdapter
     {
         Fragment fragment = null;
         if(position == 0)
+        {
             fragment = new InboxFragment();
+        }
         if(position == 1)
         {
             fragment = new FriendsFragment();
         }
         if(position == 2)
         {
-            fragment = new InboxFragment();
+            fragment = new FriendsFragment();
         }
         return fragment;
     }
@@ -42,7 +44,8 @@ class SectionsPagerAdapter extends FragmentPagerAdapter
         return 3;
     }
     @Override
-    public CharSequence getPageTitle(int position) {
+    public CharSequence getPageTitle(int position)
+    {
         Locale l = Locale.getDefault();
         switch (position) {
             case 0:

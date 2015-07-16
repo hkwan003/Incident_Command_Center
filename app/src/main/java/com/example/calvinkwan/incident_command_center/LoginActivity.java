@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity
 
                 if(username.isEmpty() || password.isEmpty())
                 {
-                    //Toast.makeText(getApplicationContext(), "empty spaces homes", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "empty spaces homes", Toast.LENGTH_LONG).show();
                     AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                     builder.setMessage(R.string.login_error_message)
                             .setTitle(R.string.login_error_title)

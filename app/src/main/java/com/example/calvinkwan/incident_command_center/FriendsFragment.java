@@ -11,6 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
+
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -27,6 +30,7 @@ public class FriendsFragment extends android.support.v4.app.ListFragment
     protected ParseRelation<ParseUser> mFriendsRelation;
     protected ParseUser mCurrentUser;
     protected List<ParseUser> mFriends;
+    protected String[] usernames;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -52,7 +56,7 @@ public class FriendsFragment extends android.support.v4.app.ListFragment
                 if(e == null)
                 {
                     mFriends = friends;
-                    String[] usernames = new String[mFriends.size()];            //makes an array of size users
+                    usernames = new String[mFriends.size()];            //makes an array of size users
                     int i = 0;
                     for (ParseUser user : mFriends) {
                         usernames[i] = user.getUsername();
@@ -76,6 +80,33 @@ public class FriendsFragment extends android.support.v4.app.ListFragment
                     AlertDialog dialog = builder.create();
                     dialog.show();
 
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onListItemClick(ListView l, View v, int position, long id)
+    {
+        super.onListItemClick(l, v, position, id);
+        openConversation(usernames, position);
+        //Toast.makeText(getActivity(), "Error finding that user", Toast.LENGTH_LONG).show();
+    }
+
+    public void openConversation(final String[] usernames, final int pos)
+    {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("username", usernames[pos]);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> user, ParseException e)
+            {
+                if (e == null)
+                {
+                    //start the messaging activity
+                    Toast.makeText(getActivity(), usernames[pos], Toast.LENGTH_SHORT).show();
+                } else
+                {
+                    Toast.makeText(getActivity(), "Error finding that user", Toast.LENGTH_LONG).show();
                 }
             }
         });

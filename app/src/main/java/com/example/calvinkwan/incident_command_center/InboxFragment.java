@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.app.NotificationCompatSideChannelService;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +56,11 @@ public class InboxFragment extends ListFragment
                         usernames[i] = message.getString(ParseConstants.KEY_SENDER_NAME);
                         i++;                                                //fills out the array with usernames
                     }
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
-                    setListAdapter(adapter);
+                    if(getListView().getAdapter() == null)
+                    {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getListView().getContext(), android.R.layout.simple_list_item_1, usernames);
+                        setListAdapter(adapter);
+                    }
                 }
             }
         });
@@ -87,4 +91,6 @@ public class InboxFragment extends ListFragment
             startActivity(intent);
         }
     }
+
+
 }

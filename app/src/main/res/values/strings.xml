@@ -3,7 +3,7 @@
 
     <string name="title_section1">Inbox</string>
     <string name="title_section2">Friends</string>
-    <string name="title_section3">Section 3</string>
+    <string name="title_section3">Message Users</string>
 
     <string name="hello_world">Hello world!</string>
 
@@ -63,4 +63,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_recipients">Choose Recipients</string>
     <string name="title_activity_view_image">ViewImageActivity</string>
+
+    <string name="logout">Logout</string>
+    <string name="List_user_error">display Error Message</string>
+    <string name="title_activity_messaging">MessagingActivity</string>
 </resources>

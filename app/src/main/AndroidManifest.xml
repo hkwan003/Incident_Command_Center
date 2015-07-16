@@ -7,9 +7,13 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERACT_ACROSS_USES_FULL" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.modify_audio_settings" />
+    <uses-permission android:name="android.permission.read_phone_state" />
 
     <application
         android:name=".RibbitApplication"
@@ -69,6 +73,10 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.calvinkwan.incident_command_center.MainActivity" />
+        </activity>
+        <activity
+            android:name=".MessagingActivity"
+            android:label="@string/title_activity_messaging" >
         </activity>
     </application>
 

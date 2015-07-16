@@ -68,4 +68,11 @@ public class MessageAdapter extends ArrayAdapter<ParseObject>
         ImageView iconImageView;
         TextView nameLabel;
     }
+
+    public void refill(List<ParseObject> messages)
+    {
+        mMessages.clear();      //clears orginal messages
+        mMessages.addAll(messages); //keeps messsage position in one place so they don't change once opened and viewed
+        notifyDataSetChanged();
+    }
 }
